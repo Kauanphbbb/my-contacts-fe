@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import {
   Card,
   Container,
@@ -19,7 +20,7 @@ export default function Home() {
 
       <Header>
         <strong>3 contatos</strong>
-        <a href="/">Novo contato</a>
+        <Link to="/new">Novo contato</Link>
       </Header>
 
       <ListContainer>
@@ -29,24 +30,6 @@ export default function Home() {
             <img src={arrow} alt="Arrow" />
           </button>
         </header>
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Joe Doe</strong>
-              <small>Instagram</small>
-            </div>
-            <span>joe@email.com</span>
-            <span>(86) 99999-9999</span>
-          </div>
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Edit" />
-            </a>
-            <button type="button">
-              <img src={trash} alt="Delete" />
-            </button>
-          </div>
-        </Card>
 
         <Card>
           <div className="info">
@@ -58,28 +41,9 @@ export default function Home() {
             <span>(86) 99999-9999</span>
           </div>
           <div className="actions">
-            <a href="/">
+            <Link to="/edit/123">
               <img src={edit} alt="Edit" />
-            </a>
-            <button type="button">
-              <img src={trash} alt="Delete" />
-            </button>
-          </div>
-        </Card>
-
-        <Card>
-          <div className="info">
-            <div className="contact-name">
-              <strong>Joe Doe</strong>
-              <small>Instagram</small>
-            </div>
-            <span>joe@email.com</span>
-            <span>(86) 99999-9999</span>
-          </div>
-          <div className="actions">
-            <a href="/">
-              <img src={edit} alt="Edit" />
-            </a>
+            </Link>
             <button type="button">
               <img src={trash} alt="Delete" />
             </button>
