@@ -23,9 +23,7 @@ export default function ContactForm({ buttonLabel }) {
         { field: 'name', message: 'Nome é obrigatório!' },
       ]);
     } else {
-      setErrors((prevState) => prevState.filter(
-        (error) => error.field !== 'name',
-      ));
+      setErrors((prevState) => prevState.filter((error) => error.field !== 'name'));
     }
   }
 
@@ -33,7 +31,9 @@ export default function ContactForm({ buttonLabel }) {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
-      const errorAlreadyExists = errors.find((error) => error.field === 'email');
+      const errorAlreadyExists = errors.find(
+        (error) => error.field === 'email',
+      );
       if (errorAlreadyExists) {
         return;
       }
@@ -42,12 +42,13 @@ export default function ContactForm({ buttonLabel }) {
         { field: 'email', message: 'E-mail inválido!' },
       ]);
     } else {
-      setErrors((prevState) => prevState.filter(
-        (error) => error.field !== 'email',
-      ));
+      setErrors((prevState) => prevState.filter((error) => error.field !== 'email'));
     }
   }
-  console.log(errors);
+
+  function getErrorMessageByFieldName(fieldName) {
+    return errors.find((error) => error.field === fieldName)?.message;
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -55,11 +56,17 @@ export default function ContactForm({ buttonLabel }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <Input placeholder="Nome" value={name} onChange={handleNameChange} />
-      </FormGroup>
-      <FormGroup>
+      <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
+          error={getErrorMessageByFieldName('name')}
+          placeholder="Nome"
+          value={name}
+          onChange={handleNameChange}
+        />
+      </FormGroup>
+      <FormGroup error={getErrorMessageByFieldName('email')}>
+        <Input
+          error={getErrorMessageByFieldName('email')}
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
