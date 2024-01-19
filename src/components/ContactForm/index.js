@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import useErrors from '../../hooks/useErrors';
+import formatPhone from '../../utils/formatPhone';
 import isEmailValid from '../../utils/isEmailValid';
 import Button from '../Button';
 import FormGroup from '../FormGroup';
@@ -35,6 +36,10 @@ export default function ContactForm({ buttonLabel }) {
     }
   }
 
+  function handlePhoneChange(event) {
+    setPhone(formatPhone(event.target.value));
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
   }
@@ -60,9 +65,11 @@ export default function ContactForm({ buttonLabel }) {
       </FormGroup>
       <FormGroup>
         <Input
+          maxLength={15}
+          type="tel"
           placeholder="Telefone"
           value={phone}
-          onChange={(event) => setPhone(event.target.value)}
+          onChange={handlePhoneChange}
         />
       </FormGroup>
       <FormGroup>
