@@ -13,7 +13,6 @@ import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 
 import Loader from '../../components/Loader';
-
 import delay from '../../utils/delay';
 
 export default function Home() {
@@ -27,16 +26,24 @@ export default function Home() {
   )), [contacts, searchTerm]);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`, {
-      method: 'GET',
-    })
-      .then(async (response) => {
+    async function loadContacts() {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`, {
+          method: 'GET',
+        });
+
         await delay(2000);
         const json = await response.json();
         setContacts(json);
-      }).catch((error) => { console.log(error); })
-      .finally(() => { setIsLoading(false); });
+      } catch (error) {
+        console.log('error', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadContacts();
   }, [orderBy]);
 
   function handleToggleOrderBy() {
