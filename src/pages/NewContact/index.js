@@ -17,6 +17,7 @@ export default function NewContact() {
       alert('Ocorreu um erro ao cadastrar o contato');
     }
   }
+
   return (
     <>
       <PageHeader title="Novo contato" />
