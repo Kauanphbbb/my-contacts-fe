@@ -18,13 +18,17 @@ export default function ToastContainer() {
       toastEventManager.removeListener('addToast', handleAddToast);
     };
   }, []);
+
+  function handleRemoveMessage(id) {
+    setMessages((prevState) => prevState.filter((message) => message.id !== id));
+  }
   return (
     <Container>
       {messages.map((message) => (
         <ToastMessage
-          text={message.text}
-          type={message.type}
           key={message.id}
+          message={message}
+          onRemoveMessage={handleRemoveMessage}
         />
       ))}
     </Container>
