@@ -76,13 +76,10 @@ export default function ContactForm({ buttonLabel, onSubmit }) {
     });
 
     setIsSubmitting(false);
-
-    console.log({
-      name,
-      email,
-      phone,
-      categoryId,
-    });
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCategoryId('');
   }
 
   return (
