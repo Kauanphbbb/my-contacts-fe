@@ -23,6 +23,7 @@ import sad from '../../assets/images/sad.svg';
 
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
+import Modal from '../../components/Modal';
 import ContactsService from '../../services/ContactsService';
 
 export default function Home() {
@@ -32,9 +33,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  const filteredContacts = useMemo(() => contacts.filter((contact) => (
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )), [contacts, searchTerm]);
+  const filteredContacts = useMemo(
+    () => contacts.filter((contact) => (
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )),
+    [contacts, searchTerm],
+  );
 
   const loadContacts = useCallback(async () => {
     try {
@@ -68,6 +72,17 @@ export default function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
+      <Modal
+        danger
+        title='Tem certeza que deseja excluir o contato "Kauan"?'
+        confirmLabel="Deletar"
+        onCancel={() => alert('Cancelado!')}
+        onConfirm={() => alert('Deletado!')}
+      >
+        <p>
+          Após a exclusão, esse contato não podera ser recuperado.
+        </p>
+      </Modal>
       {contacts.length > 0 && (
         <InputSearchContainer>
           <input
@@ -79,15 +94,16 @@ export default function Home() {
         </InputSearchContainer>
       )}
 
-      <Header justifyContent={
-        hasError
-          ? 'flex-end'
-          : (contacts.length > 0
-            ? 'space-between'
-            : 'center')
-}
+      <Header
+        justifyContent={
+          hasError
+            ? 'flex-end'
+            : contacts.length > 0
+              ? 'space-between'
+              : 'center'
+        }
       >
-        {(!hasError && contacts.length > 0) && (
+        {!hasError && contacts.length > 0 && (
           <strong>
             {filteredContacts.length}
             {filteredContacts.length === 1 ? ' contato' : ' contatos'}
@@ -100,9 +116,7 @@ export default function Home() {
         <ErrorContainer>
           <img src={sad} alt="SAD" />
           <div className="details">
-            <strong>
-              Ocorreu um erro ao obter os seus contatos
-            </strong>
+            <strong>Ocorreu um erro ao obter os seus contatos</strong>
 
             <Button type="button" onClick={handleTryAgain}>
               Tentar novamente
@@ -113,21 +127,21 @@ export default function Home() {
 
       {!hasError && (
         <>
-          {(contacts.length < 1 && !isLoading) && (
+          {contacts.length < 1 && !isLoading && (
             <EmptyListContainer>
               <img src={emptyBox} alt="Empty box" />
               <p>
-                Você ainda não tem nenhum contato cadastrado!
-                Clique no botão
+                Você ainda não tem nenhum contato cadastrado! Clique no botão
                 {' '}
                 <strong> ”Novo contato” </strong>
                 {' '}
-                à cima para cadastrar o seu primeiro!
+                à cima para cadastrar o seu
+                primeiro!
               </p>
             </EmptyListContainer>
           )}
 
-          {(contacts.length > 0 && filteredContacts.length < 1) && (
+          {contacts.length > 0 && filteredContacts.length < 1 && (
             <SearchNotFoundContainer>
               <img src={magnifierQuestion} alt="Magnifier question" />
 
@@ -144,12 +158,16 @@ export default function Home() {
           )}
 
           {filteredContacts.length > 0 && (
-          <ListHeader orderBy={orderBy}>
-            <button type="button" className="sort-button" onClick={handleToggleOrderBy}>
-              <span>Nome</span>
-              <img src={arrow} alt="Arrow" />
-            </button>
-          </ListHeader>
+            <ListHeader orderBy={orderBy}>
+              <button
+                type="button"
+                className="sort-button"
+                onClick={handleToggleOrderBy}
+              >
+                <span>Nome</span>
+                <img src={arrow} alt="Arrow" />
+              </button>
+            </ListHeader>
           )}
 
           {filteredContacts.map((contact) => (
@@ -158,7 +176,7 @@ export default function Home() {
                 <div className="contact-name">
                   <strong>{contact.name}</strong>
                   {contact.category_name && (
-                  <small>{contact.category_name}</small>
+                    <small>{contact.category_name}</small>
                   )}
                 </div>
                 <span>{contact.email}</span>
@@ -176,7 +194,6 @@ export default function Home() {
           ))}
         </>
       )}
-
     </Container>
   );
 }
