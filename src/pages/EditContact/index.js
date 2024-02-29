@@ -20,6 +20,7 @@ export default function EditContact() {
     async function loadContact() {
       try {
         const contact = await ContactsService.getContactById(id);
+        console.log('🚀 ~ loadContact ~ contact:', contact);
         safeAsyncAction(() => {
           contactFormRef.current.setFieldsValues(contact);
           setContactName(contact.name);
