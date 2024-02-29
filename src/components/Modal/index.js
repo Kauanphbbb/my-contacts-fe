@@ -18,6 +18,7 @@ export default function Modal({
     return null;
   }
 
+  return (
     <ReactPortal containerId="modal-root">
       <Overlay>
         <Container danger={danger}>
@@ -35,7 +36,8 @@ export default function Modal({
           </Footer>
         </Container>
       </Overlay>
-    </ReactPortal>;
+    </ReactPortal>
+  );
 }
 
 Modal.propTypes = {
