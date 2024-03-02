@@ -1,12 +1,9 @@
-/* eslint-disable no-nested-ternary */
 import { Link } from 'react-router-dom';
 import {
   Card,
   Container,
   EmptyListContainer,
   ErrorContainer,
-  Header,
-  InputSearchContainer,
   ListHeader,
   SearchNotFoundContainer,
 } from './styles';
@@ -21,6 +18,8 @@ import sad from '../../assets/images/sad.svg';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import Modal from '../../components/Modal';
+import Header from './components/Header';
+import InputSearch from './components/InputSearch';
 import useHome from './useHome';
 
 export default function Home() {
@@ -45,47 +44,15 @@ export default function Home() {
   return (
     <Container>
       <Loader isLoading={isLoading} />
-      <Modal
-        danger
-        title={`Tem certeza que deseja remover o contato "${contactBeingDeleted?.name}?"`}
-        confirmLabel="Deletar"
-        onCancel={handleCloseDeleteModal}
-        onConfirm={handleDeleteConfirmContact}
-        visible={isDeleteModalVisible}
-        isLoading={isLoadingDelete}
-      >
-        <p>
-          Esta ação não poderá ser desfeita!
-        </p>
-      </Modal>
       {contacts.length > 0 && (
-        <InputSearchContainer>
-          <input
-            value={searchTerm}
-            type="text"
-            placeholder="Pesquise pelo nome..."
-            onChange={handleChangeSearchTerm}
-          />
-        </InputSearchContainer>
+        <InputSearch value={searchTerm} onChange={handleChangeSearchTerm} />
       )}
 
       <Header
-        justifyContent={
-          hasError
-            ? 'flex-end'
-            : contacts.length > 0
-              ? 'space-between'
-              : 'center'
-        }
-      >
-        {!hasError && contacts.length > 0 && (
-          <strong>
-            {filteredContacts.length}
-            {filteredContacts.length === 1 ? ' contato' : ' contatos'}
-          </strong>
-        )}
-        <Link to="/new">Novo contato</Link>
-      </Header>
+        hasError={hasError}
+        quantityOfContacts={contacts.length}
+        quantityOfFilteredContacts={filteredContacts.length}
+      />
 
       {hasError && (
         <ErrorContainer>
@@ -161,12 +128,27 @@ export default function Home() {
                 <Link to={`/edit/${contact.id}`}>
                   <img src={edit} alt="Edit" />
                 </Link>
-                <button type="button" onClick={() => handleDeleteContact(contact)}>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteContact(contact)}
+                >
                   <img src={trash} alt="Delete" />
                 </button>
               </div>
             </Card>
           ))}
+
+          <Modal
+            danger
+            title={`Tem certeza que deseja remover o contato "${contactBeingDeleted?.name}?"`}
+            confirmLabel="Deletar"
+            onCancel={handleCloseDeleteModal}
+            onConfirm={handleDeleteConfirmContact}
+            visible={isDeleteModalVisible}
+            isLoading={isLoadingDelete}
+          >
+            <p>Esta ação não poderá ser desfeita!</p>
+          </Modal>
         </>
       )}
     </Container>
