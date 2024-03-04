@@ -11,8 +11,6 @@ export default function useToastContainer() {
     setItems: setMessages,
   } = useAnimatedList([{ id: 123, text: 'Hello World', type: 'default' }]);
 
-  console.log({ pendingRemovalItemsIds, messages });
-
   useEffect(() => {
     function handleAddToast({ type, text, duration }) {
       setMessages((prevState) => [
