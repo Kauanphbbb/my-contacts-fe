@@ -7,7 +7,18 @@ const messageIn = keyframes`
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0px);
+  }
+`;
+
+const messageOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100px);
   }
 `;
 
@@ -32,6 +43,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   animation: ${messageIn} 0.3s;
+  ${({ isLeaving }) => isLeaving
+    && css`
+      animation: ${messageOut} 0.3s;
+    `}
+
   cursor: pointer;
 
   ${({ type }) => containerVariants[type] || containerVariants.default}
