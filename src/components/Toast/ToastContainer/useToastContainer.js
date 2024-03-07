@@ -4,12 +4,10 @@ import { toastEventManager } from '../../../utils/toast';
 
 export default function useToastContainer() {
   const {
-    handleAnimationEnd,
     handleRemoveItem,
-    items: messages,
-    pendingRemovalItemsIds,
     setItems: setMessages,
-  } = useAnimatedList([{ id: 123, text: 'Hello World', type: 'default' }]);
+    renderList,
+  } = useAnimatedList([]);
 
   useEffect(() => {
     function handleAddToast({ type, text, duration }) {
@@ -30,9 +28,7 @@ export default function useToastContainer() {
   }, [setMessages]);
 
   return {
-    messages,
-    pendingRemovalItemsIds,
     handleRemoveItem,
-    handleAnimationEnd,
+    renderList,
   };
 }
