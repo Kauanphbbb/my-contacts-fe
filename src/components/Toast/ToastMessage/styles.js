@@ -43,7 +43,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   animation: ${messageIn} 0.3s;
-  ${({ isLeaving }) => isLeaving
+  ${({ $isLeaving }) => $isLeaving
     && css`
       animation: ${messageOut} 0.3s;
     `}

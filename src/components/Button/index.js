@@ -11,9 +11,14 @@ export default function Button({
   onClick,
 }) {
   return (
-    <StyledButton type={type} disabled={disabled || isLoading} danger={danger} onClick={onClick}>
+    <StyledButton
+      type={type}
+      disabled={disabled || isLoading}
+      $danger={danger}
+      onClick={onClick}
+    >
       {!isLoading && children}
-      {isLoading && (<Spinner size={16} />)}
+      {isLoading && <Spinner size={16} />}
     </StyledButton>
   );
 }

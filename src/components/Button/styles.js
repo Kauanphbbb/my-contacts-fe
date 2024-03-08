@@ -28,7 +28,7 @@ export const StyledButton = styled.button`
     cursor: default !important;
   }
 
-  ${({ theme, danger }) => danger
+  ${({ theme, $danger }) => $danger
     && css`
       background: ${theme.colors.danger.main};
 

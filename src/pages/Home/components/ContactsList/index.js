@@ -14,7 +14,7 @@ export default function ContactsList({
   return (
     <>
       {filteredContacts.length > 0 && (
-        <Header orderBy={orderBy}>
+        <Header $orderBy={orderBy}>
           <button
             type="button"
             className="sort-button"

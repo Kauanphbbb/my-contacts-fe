@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  forwardRef,
-} from 'react';
+import { forwardRef } from 'react';
 import Button from '../Button';
 import FormGroup from '../FormGroup';
 import Input from '../Input';
@@ -31,7 +29,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
     <Form onSubmit={handleSubmit} noValidate>
       <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
-          error={getErrorMessageByFieldName('name')}
+          $error={getErrorMessageByFieldName('name')}
           placeholder="Nome *"
           value={name}
           onChange={handleNameChange}
@@ -41,7 +39,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
       <FormGroup error={getErrorMessageByFieldName('email')}>
         <Input
           type="email"
-          error={getErrorMessageByFieldName('email')}
+          $error={getErrorMessageByFieldName('email')}
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
