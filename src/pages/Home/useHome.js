@@ -20,28 +20,40 @@ export default function useHome() {
   const deferredSearchTerm = useDeferredValue(searchTerm);
 
   const filteredContacts = useMemo(
-    () => contacts.filter(
-      (contact) => contact.name.toLowerCase().includes(deferredSearchTerm.toLowerCase()),
-    ),
+    () => contacts.filter((contact) => contact.name.toLowerCase()
+      .includes(deferredSearchTerm.toLowerCase())),
     [contacts, deferredSearchTerm],
   );
 
-  const loadContacts = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const contactsList = await ContactsService.listContacts(orderBy);
-      setContacts(contactsList);
-      setHasError(false);
-    } catch {
-      setHasError(true);
-      setContacts([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [orderBy]);
+  const loadContacts = useCallback(
+    async (signal) => {
+      try {
+        setIsLoading(true);
+        const contactsList = await ContactsService.listContacts(
+          orderBy,
+          signal,
+        );
+        setContacts(contactsList);
+        setHasError(false);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        setHasError(true);
+        setContacts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [orderBy],
+  );
 
   useEffect(() => {
-    loadContacts();
+    const controller = new AbortController();
+
+    loadContacts(controller.signal);
+
+    return () => {
+      controller.abort();
+    };
   }, [loadContacts]);
 
   const handleToggleOrderBy = useCallback(() => {
